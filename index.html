@@ -111,34 +111,44 @@
             }
         }
 
-        // Função para tornar a calculadora móvel
-        let isDragging = false;
-        let offsetX, offsetY;
+    // Função para tornar a calculadora móvel (mouse + toque)
+let isDragging = false;
+let offsetX, offsetY;
 
-        const calc = document.getElementById("calc");
-        const dragHandle = document.getElementById("drag-handle");
+const calc = document.getElementById("calc");
+const dragHandle = document.getElementById("drag-handle");
 
-        dragHandle.style.cursor = "grab";
+dragHandle.style.cursor = "grab";
 
-        dragHandle.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            offsetX = e.clientX - calc.getBoundingClientRect().left;
-            offsetY = e.clientY - calc.getBoundingClientRect().top;
-            calc.style.cursor = "grabbing";
-        });
+// Eventos para mouse
+dragHandle.addEventListener("mousedown", (e) => startDrag(e));
+document.addEventListener("mousemove", (e) => drag(e));
+document.addEventListener("mouseup", () => stopDrag());
 
-        document.addEventListener("mousemove", (e) => {
-            if (isDragging) {
-                calc.style.left = e.clientX - offsetX + "px";
-                calc.style.top = e.clientY - offsetY + "px";
-                calc.style.transform = "none";
-            }
-        });
+// Eventos para toque (touch)
+dragHandle.addEventListener("touchstart", (e) => startDrag(e.touches[0]));
+document.addEventListener("touchmove", (e) => drag(e.touches[0]));
+document.addEventListener("touchend", () => stopDrag());
 
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-            calc.style.cursor = "grab";
-        });
+function startDrag(e) {
+    isDragging = true;
+    offsetX = e.clientX - calc.getBoundingClientRect().left;
+    offsetY = e.clientY - calc.getBoundingClientRect().top;
+    calc.style.cursor = "grabbing";
+}
+
+function drag(e) {
+    if (isDragging) {
+        calc.style.left = e.clientX - offsetX + "px";
+        calc.style.top = e.clientY - offsetY + "px";
+        calc.style.transform = "none";
+    }
+}
+
+function stopDrag() {
+    isDragging = false;
+    calc.style.cursor = "grab";
+};
     </script>
 </body>
 </html>
