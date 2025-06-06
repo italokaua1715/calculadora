@@ -2,153 +2,32 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>calculadora de bandido</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .fundo {
-            background-image: url(fundo.jpg);
-            height: 100vh;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-        }
-        .calculadora {
-            position: absolute;
-            background-color: black;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 15px;
-            padding: 15px;
-            cursor: grab;
-        }
-        .botao {
-            width: 50px;
-            height: 50px;
-            font-size: 25px;
-            cursor: pointer;
-            margin: 3px;
-            background-color: rgb(31, 31, 31);
-            border: none;
-            color: #fff;
-        }
-        .botao:hover {
-            background-color: black;
-        }
-        #resultado {
-            background-color: #fff;
-            width: 207px;
-            height: 30px;
-            margin: 5px;
-            font-size: 25px;
-            color: black;
-            text-align: right;
-            padding: 5px;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Snake Game</title>
 </head>
 <body>
-    <div class="fundo">
-        <h1>calculadora do spfc</h1>
-        <div class="calculadora" id="calc">
-            <h1 id="drag-handle">calculadora</h1>
-            <p id="resultado"></p>
-            <table>
-                <tr>
-                    <td><button class="botao" onclick="clean()">C</button></td>
-                    <td><button class="botao" onclick="back()"><</button></td>
-                    <td><button class="botao" onclick="insert('/')">/</button></td>
-                    <td><button class="botao" onclick="insert('*')">X</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('7')">7</button></td>
-                    <td><button class="botao" onclick="insert('8')">8</button></td>
-                    <td><button class="botao" onclick="insert('9')">9</button></td>
-                    <td><button class="botao" onclick="insert('-')">-</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('4')">4</button></td>
-                    <td><button class="botao" onclick="insert('5')">5</button></td>
-                    <td><button class="botao" onclick="insert('6')">6</button></td>
-                    <td><button class="botao" onclick="insert('+')">+</button></td>
-                </tr>
-                <tr>
-                    <td><button class="botao" onclick="insert('3')">3</button></td>
-                    <td><button class="botao" onclick="insert('2')">2</button></td>
-                    <td><button class="botao" onclick="insert('1')">1</button></td>
-                    <td rowspan="2"><button class="botao" style="height: 106px;" onclick="calcular()">=</button></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><button class="botao" style="width: 106px;" onclick="insert('0')">0</button></td>
-                    <td><button class="botao" onclick="insert('.')">.</button></td>
-                </tr>
-            </table>
-        </div>
+    <h1 class="game-title">Cobrinha da clara</h1>
+    <div class="score">score: <span class="score--value">00</span></div>
+
+    <div class="menu-screen">
+        <span class="game-over">game over</span>
+        <span class="final-score">score <span>00</span></span>
+
+        <button class="btn-play">
+            <span class="material-symbols-outlined">
+                play_circle
+            </span>
+            
+            Jogar novamente
+        </button>
     </div>
-    <script>
-        function insert(num) {
-            var numero = document.getElementById('resultado').innerHTML;
-            document.getElementById('resultado').innerHTML = numero + num;
-        }
-        function clean() {
-            document.getElementById('resultado').innerHTML = "";
-        }
-        function back() {
-            var resultado = document.getElementById('resultado').innerHTML;
-            document.getElementById('resultado').innerHTML = resultado.substring(0, resultado.length -1);
-        }
-        function calcular() {
-            var resultado = document.getElementById('resultado').innerHTML;
-            if(resultado) {
-                document.getElementById('resultado').innerHTML = eval(resultado);
-            } else {
-                document.getElementById('resultado').innerHTML = "vai tomar no cu";
-            }
-        }
 
-    // Função para tornar a calculadora móvel (mouse + toque)
-let isDragging = false;
-let offsetX, offsetY;
-
-const calc = document.getElementById("calc");
-const dragHandle = document.getElementById("drag-handle");
-
-dragHandle.style.cursor = "grab";
-
-// Eventos para mouse
-dragHandle.addEventListener("mousedown", (e) => startDrag(e));
-document.addEventListener("mousemove", (e) => drag(e));
-document.addEventListener("mouseup", () => stopDrag());
-
-// Eventos para toque (touch)
-dragHandle.addEventListener("touchstart", (e) => startDrag(e.touches[0]));
-document.addEventListener("touchmove", (e) => drag(e.touches[0]));
-document.addEventListener("touchend", () => stopDrag());
-
-function startDrag(e) {
-    isDragging = true;
-    offsetX = e.clientX - calc.getBoundingClientRect().left;
-    offsetY = e.clientY - calc.getBoundingClientRect().top;
-    calc.style.cursor = "grabbing";
-}
-
-function drag(e) {
-    if (isDragging) {
-        calc.style.left = e.clientX - offsetX + "px";
-        calc.style.top = e.clientY - offsetY + "px";
-        calc.style.transform = "none";
-    }
-}
-
-function stopDrag() {
-    isDragging = false;
-    calc.style.cursor = "grab";
-};
-    </script>
+    <canvas width="350" height="350"></canvas>
+    <script src="script.js"></script>
 </body>
 </html>
